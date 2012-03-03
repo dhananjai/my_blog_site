@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <font color = 'blue'><b>Title:</b></font>
+  <%=h @post.title %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%=h @post.body %>
+</p>
+
+<h2>Comments</h2>
+
+<% @post.comments.each do |c| %>
+  <p> 
+    (<%= time_ago_in_words(c.created_at) %> ago)<br /> 
+    <b><%= c.name %> said:</b>
+    <%= c.body %>
+  </p>
+<% end %>
+
+<%= form_for :comment , :url => {:controller=>'comments', :action => 'create', :id => params[:id]},:html => {:method => :post} do |f| %>
+  <p>
+    <b><%= f.label :name, "Author:" %><br /></b>
+    <%= f.text_field :name %><br />
+    <b><%= f.label :body, "Comment Description:" %><br /></b>
+    <%= f.text_area :body %>
+  </p>
+
+  <p>
+    <%= f.submit "Add Comment"  %>
+  </p>
+<% end %>
+
+
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
